@@ -10,6 +10,7 @@ import uz.pdp.appjparelationships.payload.*;
 import uz.pdp.appjparelationships.repository.StudentRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,6 +25,12 @@ public class StudentController {
         return studentRepository.findAll().stream()
                 .map(this::generateStudentDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/getStudentById/{id}")
+    public StudentDto getStudentById(@PathVariable Integer id){
+        Optional<Student> optional = studentRepository.findById(id);
+        return optional.map(this::generateStudentDto).orElse(null);
     }
 
     private StudentDto generateStudentDto(Student student) {
