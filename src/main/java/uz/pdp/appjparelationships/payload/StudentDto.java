@@ -17,7 +17,7 @@ public class StudentDto {
 
     private AddressDto addressDto;
 
-    private GroupDto groupDto;
+    private MyGroupDto myGroupDto;
 
     private List<SubjectDto> subjectDtos;
 }
