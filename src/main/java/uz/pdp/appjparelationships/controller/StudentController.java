@@ -49,6 +49,26 @@ public class StudentController {
         return "Student saved successfully";
     }
 
+    @PostMapping("/update/{id}")
+    public String editStudent(@PathVariable Integer id, @RequestBody StudentDto dto){
+        Optional<Student> optional = studentRepository.findById(id);
+        if (optional.isPresent()){
+            Student student = optional.get();
+            student.setFirstName(dto.getFirstName());
+            student.setLastName(dto.getLastName());
+            student.setAddress(generateAddress(dto.getAddressDto()));
+            student.setGroup(generateMyGroup(dto.getMyGroupDto()));
+            student.setSubjects(
+                    dto.getSubjectDtos().stream()
+                            .map(this::generateSubject)
+                            .collect(Collectors.toList())
+            );
+            studentRepository.save(student);
+            return "Student edited successfully";
+        }
+        return "Student not found";
+    }
+
     private Student generateStudent(StudentDto dto) {
         return new Student(
                 dto.getId(),
