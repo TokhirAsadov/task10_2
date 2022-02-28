@@ -33,6 +33,16 @@ public class StudentController {
         return optional.map(this::generateStudentDto).orElse(null);
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteStudent(@PathVariable Integer id){
+        StudentDto dto = getStudentById(id);
+        if (dto!=null) {
+            studentRepository.deleteById(id);
+            return "Student deleted successfully";
+        }
+        return "Student not found";
+    }
+
     private StudentDto generateStudentDto(Student student) {
         return new StudentDto(
                 student.getId(),
