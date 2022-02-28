@@ -43,6 +43,64 @@ public class StudentController {
         return "Student not found";
     }
 
+    @PostMapping("/create")
+    public String saveStudent(@RequestBody StudentDto dto){
+        studentRepository.save(generateStudent(dto));
+        return "Student saved successfully";
+    }
+
+    private Student generateStudent(StudentDto dto) {
+        return new Student(
+                dto.getId(),
+                dto.getFirstName(),
+                dto.getLastName(),
+                generateAddress(dto.getAddressDto()),
+                generateMyGroup(dto.getMyGroupDto()),
+                dto.getSubjectDtos().stream().map(this::generateSubject).collect(Collectors.toList())
+        );
+    }
+
+    private Subject generateSubject(SubjectDto dto) {
+        return new Subject(
+                dto.getId(),
+                dto.getName()
+        );
+    }
+
+    private Group generateMyGroup(MyGroupDto dto) {
+        return new Group(
+                dto.getId(),
+                dto.getName(),
+                generateFaculty(dto.getMyFacultyDto())
+        );
+    }
+
+    private Faculty generateFaculty(MyFacultyDto dto) {
+        return new Faculty(
+                dto.getId(),
+                dto.getName(),
+                generateUniversity(dto.getMyUniversityDto())
+        );
+    }
+
+    private University generateUniversity(MyUniversityDto dto) {
+        return  new University(
+                dto.getId(),
+                dto.getName(),
+                generateAddress(dto.getAddressDto())
+        );
+    }
+
+    private Address generateAddress(AddressDto dto) {
+        return new Address(
+                dto.getId(),
+                dto.getCity(),
+                dto.getDistrict(),
+                dto.getStreet()
+        );
+    }
+
+
     private StudentDto generateStudentDto(Student student) {
         return new StudentDto(
                 student.getId(),
