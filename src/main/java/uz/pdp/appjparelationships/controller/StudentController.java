@@ -8,11 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.appjparelationships.entity.Student;
 import uz.pdp.appjparelationships.repository.StudentRepository;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/student")
 public class StudentController {
     @Autowired
     StudentRepository studentRepository;
+
+
+//    @GetMapping("/allStudents")
+//    public List
 
     //1. VAZIRLIK
     @GetMapping("/forMinistry")
